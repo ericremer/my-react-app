@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import './App.css';
+
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -23,7 +25,7 @@ function App() {
 
   return (
     <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-      <h1>🎬 Movie Search</h1>
+      <h1>🎬 Betterboxd</h1>
 
       <form onSubmit={handleSubmit}>
         <input

@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+.vite
 *.local
 
 # Editor directories and files
@@ -23,3 +24,16 @@ dist-ssr
 *.sln
 *.sw?
 .env
+.env.local
+.env.*.local
+
+
+# Supabase
+# Keep migrations, seeds, functions, config under version control
+# Ignore generated data and local state
+supabase/.temp
+supabase/.branches
+supabase/.db
+
+# Vercel
+.vercel

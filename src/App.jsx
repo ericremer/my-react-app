@@ -10,10 +10,7 @@ function App() {
 
   const searchMovies = async () => {
     if (!query) return;
-
-    const res = await fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}`
-    );
+    const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}`);
     const data = await res.json();
     setMovies(data.results);
   };
@@ -23,10 +20,20 @@ function App() {
     searchMovies();
   };
 
+  const consoleLog = async () => {
+    const res = await fetch(`https://api.themoviedb.org/3/movie/238?api_key=${API_KEY}`);
+    const data = await res.json();
+    console.log(data);
+  }
+
+  
+  consoleLog();
+
   return (
     <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
       <h1>🎬 Betterboxd</h1>
-
+      <h3>A movie app that <i><u>doesn't</u></i> suck.</h3>
+      <br></br>
       <form onSubmit={handleSubmit}>
         <input
           type="text"

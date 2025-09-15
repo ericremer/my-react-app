@@ -1,65 +1,44 @@
 import { useState, useEffect } from 'react';
+import { supabase } from "./lib/supabaseClient";
+import { Link, BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./components/Login";
+import Profile from "./components/Profile";
+import NavBar from "./components/NavBar";
+import Movies from "./pages/Movies";
 import './App.css';
-
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
-function App() {
-  const [query, setQuery] = useState("");
-  const [movies, setMovies] = useState([]);
 
-  const searchMovies = async () => {
-    if (!query) return;
-    const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}`);
-    const data = await res.json();
-    setMovies(data.results);
-  };
+export default function App() {
+  const [session, setSession] = useState(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    searchMovies();
-  };
-
-  const consoleLog = async () => {
-    const res = await fetch(`https://api.themoviedb.org/3/movie/238?api_key=${API_KEY}`);
-    const data = await res.json();
-    console.log(data);
-  }
-
-  
-  consoleLog();
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setSession(data.session));
+    supabase.auth.onAuthStateChange((_event, session) => setSession(session));
+  }, []);
 
   return (
-    <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-      <h1>🎬 Betterboxd</h1>
-      <h3>A movie app that <i><u>doesn't</u></i> suck.</h3>
-      <br></br>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Search for a movie..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          style={{ padding: "10px", fontSize: "16px", width: "300px" }}
-        />
-        <button type="submit" style={{ padding: "10px 20px", marginLeft: "10px" }}>
-          Search
-        </button>
-      </form>
+    <div className="min-h-screen bg-gray-100">
+      {/* Top navigation bar */}
+      <NavBar />
 
-      <div style={{ marginTop: "2rem" }}>
-        {movies.length > 0 ? (
-          movies.map((movie) => (
-            <div key={movie.id} style={{ marginBottom: "1rem" }}>
-              <strong>{movie.title}</strong> ({movie.release_date?.slice(0, 4)})
-            </div>
-          ))
-        ) : (
-          <p>No results yet.</p>
-        )}
+      {/* Page content */}
+      <main className="p-6">
+        <Routes>
+          <Route path="/movies" element={<Movies />} />
+        </Routes>
+      </main>
+
+      <div className="p-6">
+        <h1 className="text-2xl font-bold mb-4">🎬Betterboxd</h1>
+        <p>A movie app that <b>doesn't</b> suck.</p>
+        <Link to="/movies" className="text-blue-600 underline">
+          Go to Movies
+        </Link>
+        {session ? <Profile /> : <Login />}
       </div>
     </div>
   );
-}
 
-export default App;
+}

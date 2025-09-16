@@ -15,8 +15,7 @@ function getEnv(key: string): string | undefined {
   return process.env[key];
 }
 
-const SUPABASE_KEY =
-  getEnv("SUPABASE_SECRET_KEY") || getEnv("VITE_SUPABASE_SERVICE_ROLE_KEY");
+const SUPABASE_KEY = getEnv("VITE_SUPABASE_SECRET_KEY") || getEnv("VITE_SUPABASE_SERVICE_ROLE_KEY");
 
 if (!process.env.VITE_SUPABASE_URL || !SUPABASE_KEY) {
   throw new Error("Missing Supabase URL or secret key in env");

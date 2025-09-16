@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "seed-users:local": "ts-node scripts/seed-users.ts local",
     "seed-users:prod": "ts-node scripts/seed-users.ts prod",
-    "seed-movies:local": "ts-node scripts/seed-movies.ts local"
+    "seed-movies:local": "ts-node scripts/seed-movies.ts local",
+    "seed-movies:prod": "ts-node scripts/seed-movies.ts prod"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",

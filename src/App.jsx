@@ -1,44 +1,21 @@
-import { useState, useEffect } from 'react';
-import { supabase } from "./lib/supabaseClient";
-import { Link, BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./components/Login";
-import Profile from "./components/Profile";
-import NavBar from "./components/NavBar";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import MainLayout from "./layouts/MainLayout.jsx";
+import Home from "./pages/Home";
 import Movies from "./pages/Movies";
-import './App.css';
+import Login from "./pages/Login";
 
-const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
 
 export default function App() {
-  const [session, setSession] = useState(null);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setSession(data.session));
-    supabase.auth.onAuthStateChange((_event, session) => setSession(session));
-  }, []);
-
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Top navigation bar */}
-      <NavBar />
-
-      {/* Page content */}
-      <main className="p-6">
+    <BrowserRouter>
+      <MainLayout>
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/movies" element={<Movies />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
-      </main>
-
-      <div className="p-6">
-        <h1 className="text-2xl font-bold mb-4">🎬Betterboxd</h1>
-        <p>A movie app that <b>doesn't</b> suck.</p>
-        <Link to="/movies" className="text-blue-600 underline">
-          Go to Movies
-        </Link>
-        {session ? <Profile /> : <Login />}
-      </div>
-    </div>
+      </MainLayout>
+    </BrowserRouter>
   );
-
 }

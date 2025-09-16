@@ -14,14 +14,14 @@ dotenv.config({ path: path.resolve(process.cwd(), envFile) });
 function getEnv(key: string): string | undefined {
   return process.env[key];
 }
-const SUPABASE_KEY = getEnv("SUPABASE_SECRET_KEY") || getEnv("VITE_SUPABASE_SERVICE_ROLE_KEY");
+const SUPABASE_KEY = getEnv("VITE_SUPABASE_SECRET_KEY") || getEnv("VITE_SUPABASE_SERVICE_ROLE_KEY");
+console.log("Loaded env from:", envFile);
+console.log("VITE_SUPABASE_URL:", process.env.VITE_SUPABASE_URL);
+console.log("Key starts with:", (SUPABASE_KEY || "").slice(0, 10) + "...");
 
 if (!process.env.VITE_SUPABASE_URL || !SUPABASE_KEY) {
   throw new Error("Missing Supabase URL or secret key in env");
 }
-console.log("Loaded env from:", envFile);
-console.log("VITE_SUPABASE_URL:", process.env.VITE_SUPABASE_URL);
-console.log("Key starts with:", (SUPABASE_KEY || "").slice(0, 10) + "...");
 
 const supabase = createClient(process.env.VITE_SUPABASE_URL, SUPABASE_KEY);
 
